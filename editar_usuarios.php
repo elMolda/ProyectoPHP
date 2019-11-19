@@ -3,6 +3,7 @@
 </head>
 <body>
     <h1>Editar Usuarios</h1>
+    <?php require_once 'procesar.php';?>
     <?php
         include_once dirname(__FILE__) . '/config.php'; 
         $conn = mysqli_connect(HOST_DB,USER_DB,USER_PASS,NAME_DB);
@@ -33,11 +34,12 @@
                 </tr>
             <?php endwhile; ?>
         </table>
-        <form action="">
+        <form action="procesar.php" method="POST">
         <h4>Formulario para editar</h4>
         <p>Primero de click en el usuario que quiere editar para activar la funcionalidad</p>
+            <input type="hidden" name="id" value="<?php echo $id;?>">
             <br><br>
-            Nombre Usuario: <input type="text" name="nomUsr">
+            Nombre Usuario: <input type="text" name="nomUsr" value="<?php echo $nombreUsuario?>">
             <br><br>
             Tipo Usuario: <select name="tipoUsr">
                 <option value="Admin">Administrador</option>
