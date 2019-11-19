@@ -6,7 +6,7 @@ $tipo = '';
 $id = 0;
 
 include_once dirname(__FILE__) . '/config.php'; 
-$conn = mysqli_connect(HOST_DB,USER_DB,USER_PASS,NAME_DB);
+$conn=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS, NOMBRE_DB);
 if($conn){
     if(isset($_GET['del'])){
         $id = $_GET['del'];
