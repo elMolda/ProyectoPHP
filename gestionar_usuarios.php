@@ -3,7 +3,7 @@
 </head>
 <body>
     <h1>Editar Usuarios</h1>
-    <?php require_once 'procesar_usr.php';?>
+    <?php require_once 'procesar_usuarios.php';?>
     <?php
         include_once dirname(__FILE__) . '/config.php'; 
         $conn=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS, NOMBRE_DB);
@@ -28,13 +28,13 @@
                     <td><?php echo $row['nombreUsuario'];?></td>
                     <td><?php echo $row['tipoUsuario'];?></td>
                     <td>
-                        <a href="editar_usuarios.php?edit=<?php echo $row['idUsuario'];?>">Editar</a>
-                        <a href="procesar_usr.php?del=<?php echo $row['idUsuario'];?>">Eliminar</a>
+                        <a href="gestionar_usuarios.php?edit=<?php echo $row['idUsuario'];?>">Editar</a>
+                        <a href="procesar_usuarios.php?del=<?php echo $row['idUsuario'];?>">Eliminar</a>
                     </td>
                 </tr>
             <?php endwhile; ?>
         </table>
-        <form action="procesar_usr.php" method="POST">
+        <form action="procesar_usuarios.php" method="POST">
         <h4>Formulario para editar</h4>
         <p>Primero de click en el usuario que quiere editar para activar la funcionalidad</p>
             <input type="hidden" name="id" value="<?php echo $id;?>">

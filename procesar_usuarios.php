@@ -11,7 +11,7 @@ if($conn){
     if(isset($_GET['del'])){
         $id = $_GET['del'];
         $conn->query("DELETE FROM Usuarios WHERE idUsuario=$id") or die($conn->error);
-        header("location: editar_usuarios.php");
+        header("location: gestionar_usuarios.php");
     }
 
     if(isset($_GET['edit'])){
@@ -29,7 +29,7 @@ if($conn){
         $nuevoNombre = $_POST['nomUsr'];
         $nuevoTipo = $_POST['tipoUsr'];
         $conn->query("UPDATE Usuarios SET nombreUsuario = '$nuevoNombre', tipoUsuario = '$nuevoTipo' WHERE idUsuario=$id") or die($conn->error);
-        header("location: editar_usuarios.php");
+        header("location: gestionar_usuarios.php");
     }
 }
 ?>
