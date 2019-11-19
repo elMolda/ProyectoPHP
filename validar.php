@@ -24,7 +24,7 @@
 
     if($DBRol == "admin"){
       //lleva a la pagina del admin
-      header("Location: admin.html");
+      header("Location: admin.php");
 
     }
     //lleva a la pagina del usuario normal
