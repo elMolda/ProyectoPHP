@@ -22,8 +22,11 @@
     <br><br>
     <form action="gestionar_tarjetas.php">
             <input type="submit" value="Gestionar Tarjetas de Crédito" />
-        </form>
+    </form>
     <br><br>
+    <form action="fin_de_mes.php">
+            <input type="submit" value="Fin de Mes" />
+    </form>
 </body>
 
 </html>
