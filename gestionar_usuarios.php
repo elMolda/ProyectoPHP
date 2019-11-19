@@ -41,11 +41,15 @@
             <br><br>
             Nombre Usuario: <input type="text" name="nomUsr" value="<?php echo $nombreUsuario?>">
             <br><br>
-            Tipo Usuario: <select name="tipoUsr">
-                <option value="Admin">Administrador</option>
-                <option value="Cliente">Cliente</option>
-            </select>
+            Tipo Usuario:
             <br><br>
+            <?php if($tipo == 'admin'): ?>
+                <input type="radio" name="tipoUsr" value="admin" checked=true>Administrador<br>
+                <input type="radio" name="tipoUsr" value="user">Cliente<br>
+            <?php elseif($tipo == 'user'): ?>
+                <input type="radio" name="tipoUsr" value="admin">Administrador<br>
+                <input type="radio" name="tipoUsr" value="user" checked=true>Cliente<br>
+            <?php endif; ?>
             <button type="submit" name="guardar">Guardar Cambios</button>
         </form>
     </div>
