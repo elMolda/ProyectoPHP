@@ -1,3 +1,6 @@
+
+<!DOCTYPE html>
+
 <head>
     <meta charset="UTF-8">
 </head>
@@ -5,7 +8,7 @@
     <h1>Editar Usuarios</h1>
     <?php require_once 'procesar_usuarios.php';?>
     <?php
-        include_once dirname(__FILE__) . '/config.php'; 
+        include_once dirname(__FILE__) . '/config.php';
         $conn=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS, NOMBRE_DB);
         if($conn){
             $result = $conn->query("SELECT * FROM Usuarios") or die($conn->error);
@@ -19,7 +22,7 @@
                     <th>Id Usuario</th>
                     <th>Nombre</th>
                     <th>Tipo</th>
-                    <th colspan="2">Acción</th>
+                    <th colspan="2">AcciÃ³n</th>
                 </tr>
             </thead>
             <?php while($row = $result->fetch_assoc()): ?>
@@ -30,6 +33,7 @@
                     <td>
                         <a href="gestionar_usuarios.php?edit=<?php echo $row['idUsuario'];?>">Editar</a>
                         <a href="procesar_usuarios.php?del=<?php echo $row['idUsuario'];?>">Eliminar</a>
+                        <a href="fin_de_mes.php?user=<?php echo $row['idUsuario'];?>">Fin de mes</a>
                     </td>
                 </tr>
             <?php endwhile; ?>

@@ -1,11 +1,24 @@
-<head>
-    <meta charset="UTF-8">
-</head>
+<?php session_start();
+
+//$_SESSION["usuario"] tiene el username del usuario
+if(!empty($_SESSION["usuario"]) && $_SESSION["rol"] === "admin"){
+  include_once dirname(__FILE__) . '/config.php';
+  $con=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS , NOMBRE_DB);
+}
+else{
+  //lo manda al login si no hay nada en la sesion
+  header("Location: index.php");
+  exit(404);
+}
+
+?>
+
+<!DOCTYPE html>
 <body>
     <h1>Gestionar Tarjetas de Crédito</h1>
     <?php require_once 'procesar_tarjetas.php';?>
     <?php
-        include_once dirname(__FILE__) . '/config.php'; 
+        include_once dirname(__FILE__) . '/config.php';
         $conn=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS, NOMBRE_DB);
         if($conn){
             $result = $conn->query("SELECT * FROM Tarjetas") or die($conn->error);
