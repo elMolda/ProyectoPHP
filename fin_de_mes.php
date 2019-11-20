@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+date_default_timezone_set('America/Bogota');
+
+
+
 //$_SESSION["usuario"] tiene el username del usuario
 if(!empty($_SESSION["usuario"]) && $_SESSION["rol"] === "admin"){
   include_once dirname(__FILE__) . '/config.php';
@@ -57,12 +61,15 @@ $resultado = mysqli_query($con,$query);
 $value = mysqli_fetch_object($resultado);
 $username =  $value->nombreUsuario;
 
-$query = "SELECT valorCredito  FROM creditos WHERE  idUsuario = \"$user\"; ";
+$query = "SELECT valorCredito , fechaCredito  FROM creditos WHERE  idUsuario = \"$user\"; ";
 
 $resultado = mysqli_query($con,$query);
 
 $value = mysqli_fetch_object($resultado);
 $valor =  $value->valorCredito;
+$fechaCredito =  $value->fechaCredito;
+
+$fechaCredito = obtenerFechaCredito($fechaCredito);
 
 $opps = array();
 $fallidas = array();
@@ -70,9 +77,29 @@ $fallidas = array();
 $query = "SELECT * FROM cuentas WHERE  idUsuario = \"$user\"; ";
 $restante = $valor;
 $resultado = mysqli_query($con,$query);
+
+//saca la fecha de pago de este mes
+$mesCorte = date("m");
+$diaCorte = 31;
+$anoCorte = date("y");
+$fechaCorte= $anoCorte."-".$mesCorte."-".$diaCorte;
+for($i =0 ; $i<4 ; $i++){
+  if(checkdate($mesCorte , $diaCorte , $anoCorte)){
+    $fechaCorte = $anoCorte."-".$mesCorte."-".$diaCorte;
+    $diaSemana = date('w', strtotime($fechaCorte));
+    if($diaSemana != 0 && $diaSemana != 6){
+      break;
+    }
+
+  }
+  $diaCorte--;
+
+}
+
 while($fila = mysqli_fetch_array($resultado)) {
 
-  $temp =array($fila["idCuenta"] , $fila["cuotaManejo"]*-1, "Cuota de manejo")  ;
+
+  $temp =array($fila["idCuenta"] , $fila["cuotaManejo"]*-1, "Cuota de manejo", $fechaCorte)  ;
   if( $fila["cuotaManejo"] <  $fila["saldoCuenta"]){
     array_push($opps , $temp);
 
@@ -80,7 +107,7 @@ while($fila = mysqli_fetch_array($resultado)) {
   }else{
     array_push($fallidas , $temp);
   }
-  $temp =array($fila["idCuenta"]  , $fila["cuotaManejo"]*0.01, "intereses")  ;
+  $temp =array($fila["idCuenta"]  , $fila["cuotaManejo"]*0.01, "intereses" , $fechaCorte)  ;
   array_push($opps , $temp);
 }
 if($suma >= $valor ){
@@ -94,9 +121,8 @@ if($suma >= $valor ){
   while($fila = mysqli_fetch_array($resultado)) {
     if($restante > 0){
       if($fila["saldoCuenta"]  <= $restante){
-
         $restante -= $fila["saldoCuenta"];
-        $temp =array($fila["idCuenta"]  , $fila["saldoCuenta"]*-1, "Pago de Intereses")  ;
+        $temp =array($fila["idCuenta"]  , $fila["saldoCuenta"]*-1, "Pago de Intereses" , $fechaCredito)  ;
 
         array_push($opps , $temp);
         $sql = "INSERT INTO opps (idCuenta , monto ,descripcion) VALUES (\"$temp[0]\" , \"$temp[1]\" , \"$temp[2]\");";
@@ -104,7 +130,7 @@ if($suma >= $valor ){
       }
       else{
 
-        $temp =array($fila["idCuenta"]  , $restante*-1, "Pago de Intereses")  ;
+        $temp =array($fila["idCuenta"]  , $restante*-1, "Pago de Intereses" , $fechaCredito)  ;
         array_push($opps , $temp);
         $restante=0;
       }
@@ -130,6 +156,7 @@ else{
           <th>cuenta</th>
           <th>Monto</th>
           <th>Descripcion </th>
+          <th>Fecha de pago</th>
       </tr>
   </thead>
   <?php  foreach ($opps as  $value) {?>
@@ -137,6 +164,7 @@ else{
         <td><?php echo $value[0];?></td>
         <td><?php echo $value[1];?></td>
         <td><?php echo $value[2];?></td>
+        <td><?php echo $value[3];?></td>
 
       </tr>
   <?php } ?>
@@ -174,3 +202,24 @@ else{
 <form action="admin.php" method="POST">
 <input type="submit" value="volver">
 </form>
+
+
+
+<?php
+  function obtenerFechaCredito($ini){
+    $fech = $ini;
+    //saca la fecha de pago del creditos
+    $diaSemana = date('w', strtotime($fech));
+    if($diaSemana == 0 || $diaSemana == 6){
+      $fech[9]= $fech[9]+1;
+
+    }
+    if($diaSemana == 0 || $diaSemana == 6){
+      $fech[9]= $fech[9]+1;
+
+    }
+    return $fech;
+
+  }
+
+?>
