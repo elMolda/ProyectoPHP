@@ -1,0 +1,52 @@
+
+
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Mis Cuentas</h1>
+    <?php require_once 'movimientos_cuenta.php';?>
+    <?php
+        $id = 1;
+        include_once dirname(__FILE__) . '/config.php';
+        $conn=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS, NOMBRE_DB);
+        if($conn){
+            $result = $conn->query("SELECT * FROM Cuentas WHERE idUsuario=$id") or die($conn->error);
+        }
+    ?>
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th># Cuenta</th>
+                    <th>Saldo</th>
+                    <th colspan="2">Acción</th>
+                </tr>
+            </thead>
+            <?php while($row = $result->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo $row['idCuenta'];?></td>
+                    <td><?php echo $row['saldoCuenta'];?></td>
+                    <td>
+                        <a href="movimientos_cuenta.php?retiro=<?php echo $row['idCuenta'];?>">Retirar</a>
+                        <a href="movimientos_cuenta.php?consignacion=<?php echo $row['idCuenta'];?>">Consignar</a>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        </table>
+    <form action="" method="POST">
+    <input type="submit" name="crearCuenta" value="CrearCuenta"><br>
+    </form>
+    <a href="cliente.php">Regresar</a><br>
+    <?php
+    if(isset($_POST['crearCuenta'])){
+      echo "Se inserto una nueva cuenta";
+      $conn->query("INSERT INTO cuentas (idCuenta, idUsuario, saldoCuenta) VALUES (NULL, $id, 0)") or die($conn->error);
+      header("location: manejar_cuentas.php");
+    }
+    ?>
+    <a href="manejar_tarjetas.php?idcuenta=<?php echo $row['idCuenta'];?>">Tarjetas</a>
+    </div>
+</body>
+</html>

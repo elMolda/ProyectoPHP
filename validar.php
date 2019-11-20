@@ -31,7 +31,7 @@
     }
     //lleva a la pagina del usuario normal
     else{
-      header("Location: paginausuario.php");
+      header("Location: cliente.php");
 
     }
 

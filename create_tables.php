@@ -39,6 +39,7 @@ CREATE TABLE `Creditos` (
   `fechaCredito` date NOT NULL,
   `valorCredito` double NOT NULL,
   `interesCredito` double NOT NULL,
+  `saldoPendiente` double NOT NULL,
   `creditoPendiente` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
