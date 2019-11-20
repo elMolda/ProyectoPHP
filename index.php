@@ -22,6 +22,10 @@
     $output .= "</form>";
     $output .= "<form action=\"register.php\" method=\"post\" >";
     $output .= "<input type=\"submit\" value=\"Ir a register\">";
+    $output .= "</form><br><br>";
+    $output .= "<h2> Solicitar Credito como Visitante</h2><br>";
+    $output .= "<form action=\"visitante.php\" method=\"post\" >";
+    $output .= "<input type=\"submit\" value=\"Solicitar\"><br><br>";
     $output .= "</form>";
     echo $output;
 

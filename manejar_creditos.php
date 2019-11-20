@@ -10,7 +10,9 @@ else{
   header("Location: index.php");
   exit(404);
 }
+
 ?>
+
 <head>
     <meta charset="UTF-8">
 </head>
@@ -19,6 +21,10 @@ else{
     <?php require_once 'movimientos_creditos.php';?>
     <?php
     $id= $_SESSION["id"];
+    $fecha = '';
+    $valor = 0;
+    $interes = 0;
+    $apro = 0;
         include_once dirname(__FILE__) . '/config.php';
         $conn=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS, NOMBRE_DB);
         if($conn){
@@ -66,13 +72,12 @@ else{
               $nFecha = $_POST['nFecha'];
               echo ($nFecha);
               $nValor = $_POST['nValor'];
+              $apro = 0;
               if(isset($_POST['interesEstandar'])){
                 $nInt = $interes;
-                $apro = 1;
               }
               else {
                 $nInt = $_POST['nInt'];
-                $apro = 0;
               }
               echo "Se inserto una nuevo credito";
               $conn->query("INSERT INTO creditos (idCredito, idUsuario, fechaCredito, valorCredito, interesCredito, saldoPendiente,creditoPendiente)
