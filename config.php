@@ -1,6 +1,6 @@
 <?php
-define('USUARIO_DB', 'david');
-define('USUARIO_PASS', '123');
-define('HOST_DB', 'localhost');
-define('NOMBRE_DB', 'Proyecto');
+define('USUARIO_DB', 'camilo');
+define('USUARIO_PASS', '12345');
+define('HOST_DB', '127.0.0.1');
+define('NOMBRE_DB', 'proyecto');
 ?>
