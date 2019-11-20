@@ -16,6 +16,10 @@
         <input type="submit" value="Manejar Créditos" />
     </form>
 
+    <form action="salir.php">
+        <input type="submit" value="Salir" />
+    </form>
+
 </body>
 
 </html>
