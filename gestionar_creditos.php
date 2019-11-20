@@ -1,3 +1,19 @@
+<?php session_start();
+
+//$_SESSION["usuario"] tiene el username del usuario
+if(!empty($_SESSION["usuario"]) && $_SESSION["rol"] === "admin"){
+  include_once dirname(__FILE__) . '/config.php';
+  $con=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS , NOMBRE_DB);
+}
+else{
+  //lo manda al login si no hay nada en la sesion
+  header("Location: index.php");
+  exit(404);
+}
+
+?>
+
+
 <head>
     <meta charset="UTF-8">
 </head>
@@ -5,7 +21,7 @@
     <h1>Gestionar Créditos</h1>
     <?php require_once 'procesar_creditos.php';?>
     <?php
-        include_once dirname(__FILE__) . '/config.php'; 
+        include_once dirname(__FILE__) . '/config.php';
         $conn=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS, NOMBRE_DB);
         if($conn){
             $result = $conn->query("SELECT * FROM Creditos") or die($conn->error);

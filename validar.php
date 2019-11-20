@@ -10,10 +10,12 @@
     echo $con->error;
     exit();
   }
+  $DBPassword = "aaa";
   while($fila = mysqli_fetch_array($resultado)) {
     $DBPassword = $fila["contraUsuario"];
     $DBRol = $fila["tipoUsuario"];
   }
+  echo $DBPassword;
 
   if(isset($_POST["contra"]) && $DBPassword == hash('sha1', $_POST["contra"]) ){
     session_start();
