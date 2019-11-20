@@ -40,8 +40,8 @@ else{
             <input type="submit" value="Gestionar Tarjetas de Crédito" />
     </form>
     <br><br>
-    <form action="fin_de_mes.php">
-            <input type="submit" value="Fin de Mes" />
+    <form action="salir.php">
+            <input type="submit" value="Salir" />
     </form>
 </body>
 

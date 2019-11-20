@@ -12,19 +12,33 @@ else{
   exit(404);
 }
 
-
+$error = false;
 if(isset($_POST["operaciones"])){
   $ops  = unserialize($_POST["operaciones"]);
   foreach($ops as $op){
     $sql = "INSERT INTO operaciones (idCuenta , monto ,descripcion) VALUES (\"$op[0]\" , \"$op[1]\" , \"$op[2]\");";
     if(mysqli_query($con,$sql)){
-      echo "Insertado<br>";
+
     }
     else{
-      echo "Error al insertar<br>";
+      $error = true;
     }
-  }
 
+    $sql = "UPDATE cuentas SET saldoCuenta = saldoCuenta+ $op[1] WHERE idCuenta = $op[0];";
+    if(mysqli_query($con,$sql)){
+    }
+    else{
+      $error = true;
+    }
+
+
+  }
+  if($error){
+    echo "Huubo un error al insertar en la base de datos<br>";
+  }
+  else{
+    echo "Valores insertados con exito<br>";
+  }
 
 }
 
@@ -63,7 +77,6 @@ while($fila = mysqli_fetch_array($resultado)) {
     array_push($opps , $temp);
 
 
-
   }else{
     array_push($fallidas , $temp);
   }
@@ -74,7 +87,7 @@ if($suma >= $valor ){
   $puede = true;
   $tomado =array();
 
-  $query = "SELECT * FROM cuentas WHERE  idUsuario = \"$user\"; ";
+  $query = "SELECT * FROM cuentas WHERE  idUsuario = \"$user\" ORDER BY saldoCuenta DESC;";
   $restante = $valor;
 
   $resultado = mysqli_query($con,$query);
@@ -102,6 +115,8 @@ if($suma >= $valor ){
 }
 else{
   $puede = false;
+  $temp =array($fila["idCuenta"]  , $valor, "Pago de intereses")  ;
+  array_push($fallidas , $temp);
 }
 
 
@@ -135,16 +150,16 @@ else{
 <table border="1">
   <thead>
       <tr>
-          <th>cuenta</th>
           <th>Monto</th>
           <th>Descripcion </th>
       </tr>
   </thead>
   <?php  foreach ($fallidas as  $value) {?>
     <tr>
-        <td><?php echo $value[0];?></td>
         <td><?php echo $value[1];?></td>
         <td><?php echo $value[2];?></td>
+
+
 
       </tr>
   <?php } ?>

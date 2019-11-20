@@ -1,6 +1,6 @@
 <?php
 
-<?php session_start();
+session_start();
 
 //$_SESSION["usuario"] tiene el username del usuario
 if(!empty($_SESSION["usuario"]) && $_SESSION["rol"] === "admin"){
@@ -12,8 +12,6 @@ else{
   header("Location: index.php");
   exit(404);
 }
-
-?>
 
 $id = 0;
 $cupo = 0;
