@@ -14,6 +14,7 @@
   while($fila = mysqli_fetch_array($resultado)) {
     $DBPassword = $fila["contraUsuario"];
     $DBRol = $fila["tipoUsuario"];
+    $DBID = $fila["idUsuario"];
   }
   echo $DBPassword;
 
@@ -23,6 +24,7 @@
     $_SESSION["usuario"] = $username;
     $_SESSION["rol"] = $DBRol;
     $_SESSION["visitas"] = 0;
+    $_SESSION["id"]=$DBID;
 
     if($DBRol == "admin"){
       //lleva a la pagina del admin

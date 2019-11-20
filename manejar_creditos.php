@@ -1,3 +1,16 @@
+<?
+session_start();
+//$_SESSION["usuario"] tiene el username del usuario
+if(!empty($_SESSION["usuario"]) &&  $_SESSION["rol"] === "user" ){
+  include_once dirname(__FILE__) . '/config.php';
+  $con=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS , NOMBRE_DB);
+}
+else{
+  //lo manda al login si no hay nada en la sesion
+  header("Location: index.php");
+  exit(404);
+}
+?>
 <head>
     <meta charset="UTF-8">
 </head>
@@ -5,7 +18,7 @@
     <h1>Mis Créditos</h1>
     <?php require_once 'movimientos_creditos.php';?>
     <?php
-    $id = 1;
+    $id= $_SESSION["id"];
         include_once dirname(__FILE__) . '/config.php';
         $conn=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS, NOMBRE_DB);
         if($conn){
@@ -50,8 +63,8 @@
 
         <?php
         if(isset($_POST['submitcredito'])){
-              echo "string";
-              $nFecha = date('YYYY-MM-DD', strtotime($_POST['nFecha']));
+              $nFecha = $_POST['nFecha'];
+              echo ($nFecha);
               $nValor = $_POST['nValor'];
               if(isset($_POST['interesEstandar'])){
                 $nInt = $interes;

@@ -10,7 +10,7 @@
         $idcuenta =$_GET['idcuenta'];
         $conn=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS, NOMBRE_DB);
         if($conn){
-            $result = $conn->query("SELECT * FROM tarjetas WHERE idCuenta = $idcuenta") or die($conn->error);
+            $result = $conn->query("SELECT * FROM tarjetas WHERE idCuenta = $idcuenta AND tarjetaPendiente=1") or die($conn->error);
         }
     ?>
 
@@ -36,12 +36,22 @@
                     <td><?php echo $row['cuotaManejo'];?></td>
                     <td><?php echo $row['tarjetaPendiente'];?></td>
                     <td>
-                        <a href="movimientos_tarjetas.php?pagar=<?php echo $row['numeroTarjeta'];?>">Consignar</a>
+                        <a href="movimientos_tarjetas.php?pagar=<?php echo $row['numeroTarjeta'];?>">Pagar</a>
                     </td>
                 </tr>
             <?php endwhile; }?>
         </table>
         <a href="cliente.php">Regresar</a><br><br>
+        <form action="" method="POST">
+        <input type="submit" name="solicitarTarjeta" value="Solicitar Tarjeta"><br>
+        </form>
+        <?php
+        if(isset($_POST['solicitarTarjeta'])){
+          echo "Se solicito una nueva tarjeta";
+          $conn->query("INSERT INTO tarjetas (numeroTarjeta, idCuenta, cupoTajeta,sobreCupo,interes,cuotaManejo,tarjetaPendiente) VALUES (NULL, $idcuenta, 0,0,0,0,0)") or die($conn->error);
+          header("location: manejar_tarjetas.php?idcuenta=$idcuenta");
+        }
+        ?>
     </div>
 </body>
 </html>

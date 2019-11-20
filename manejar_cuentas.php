@@ -1,5 +1,16 @@
-
-
+<?
+session_start();
+//$_SESSION["usuario"] tiene el username del usuario
+if(!empty($_SESSION["usuario"]) &&  $_SESSION["rol"] === "user" ){
+  include_once dirname(__FILE__) . '/config.php';
+  $con=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS , NOMBRE_DB);
+}
+else{
+  //lo manda al login si no hay nada en la sesion
+  header("Location: index.php");
+  exit(404);
+}
+?>
 <head>
     <meta charset="UTF-8">
 </head>
@@ -7,7 +18,7 @@
     <h1>Mis Cuentas</h1>
     <?php require_once 'movimientos_cuenta.php';?>
     <?php
-        $id = 1;
+      $id= $_SESSION["id"];
         include_once dirname(__FILE__) . '/config.php';
         $conn=mysqli_connect(HOST_DB,USUARIO_DB,USUARIO_PASS, NOMBRE_DB);
         if($conn){
@@ -31,6 +42,7 @@
                     <td>
                         <a href="movimientos_cuenta.php?retiro=<?php echo $row['idCuenta'];?>">Retirar</a>
                         <a href="movimientos_cuenta.php?consignacion=<?php echo $row['idCuenta'];?>">Consignar</a>
+                        <a href="manejar_tarjetas.php?idcuenta=<?php echo $row['idCuenta'];?>">Tarjetas</a>
                     </td>
                 </tr>
             <?php endwhile; ?>
@@ -46,7 +58,6 @@
       header("location: manejar_cuentas.php");
     }
     ?>
-    <a href="manejar_tarjetas.php?idcuenta=<?php echo $row['idCuenta'];?>">Tarjetas</a>
     </div>
 </body>
 </html>
